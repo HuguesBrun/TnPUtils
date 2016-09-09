@@ -44,10 +44,16 @@ if args.verbosity == 1:
     print('')
 
 # Deactivate and reactivate branches from 'remove' and 'keep' arguments
-branchesRemove = args.remove.split(' ')
-if branchesRemove != ['']:
-    for branch in branchesRemove:
-        treeInput.SetBranchStatus(branch, 0)
+if args.remove == 'all':
+    for branch in treeInput.GetListOfBranches():
+        if not branch.GetName() in args.cut:
+            treeInput.SetBranchStatus(branch.GetName(), 0)
+else:
+    branchesRemove = args.remove.split(' ')
+    if branchesRemove != ['']:
+        for branch in branchesRemove:
+            treeInput.SetBranchStatus(branch, 0)
+
 
 branchesKeep = args.keep.split(' ')
 if branchesKeep != ['']:
